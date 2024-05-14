@@ -1,109 +1,142 @@
-import { styled } from '@mui/material/styles';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import ButtonBase from '@mui/material/ButtonBase';
-import React from 'react';
-
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-
-const CustomPaper = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(2),
-  margin: 0,
-  flexGrow: 1,
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  transition: 'background-color 0.3s',
-  '&:hover': {
-    backgroundColor: theme.palette.mode === 'dark' ? '#12161b' : '#f0f0f0',
-  },
-}));
-
-const NameSection = styled('div')({
-  backgroundColor: 'black',
-  borderRadius: '50%',
-  width: 100,
-  height: 100,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginBottom: 20,
-});
-
-const BoxComponent = ({ loan }) => {
-  return (
-    <Grid item xs={12} sm={4}>
-      <CustomPaper>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12}>
-            <NameSection>
-              <Typography variant="h5" color="white">
-                JS
-              </Typography>
-            </NameSection>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6" color="primary">
-              Loan Details
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="body1">
-              <strong>Name:</strong> {loan.name}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Loan Amount:</strong> ${loan.loanAmount}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Amount Payable:</strong> ${loan.amountPayable}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="body2">
-              <strong>User ID:</strong> {loan.userID}
-            </Typography>
-            <Typography variant="body2">
-              <strong>Late Charges:</strong> ${loan.lateCharges}
-            </Typography>
-            <Typography variant="body2">
-              <strong>Total Amount:</strong> ${loan.totalAmount}
-            </Typography>
-            <Typography variant="body2">
-              <strong>Loan Date:</strong> {loan.loanDate}
-            </Typography>
-            <Typography variant="body2">
-              <strong>Pay On:</strong> {loan.payOn}
-            </Typography>
-            <Typography variant="body2">
-              <strong>Due:</strong> {loan.due}
-            </Typography>
-          </Grid>
-        </Grid>
-      </CustomPaper>
-    </Grid>
-  );
-};
+import { InnerLayout } from "../../styles/Layouts";
+import styled from "styled-components";
+import React from "react";
 
 const Allmoney = () => {
-  // Sample loan data
-  const loan = {
-    userID: 101,
-    name: 'Vasanth',
-    loanAmount: 500,
-    amountPayable: 550,
-    lateCharges: 50,
-    totalAmount: 600,
-    loanDate: '05-05-2024',
-    payOn: '05-06-2024',
-    due: 1,
-  };
+  const users = [
+    {
+      userId: 101,
+      name: "Jothis",
+      loanAmount: 500,
+      amountPayable: 550,
+      loanDate: "3/5/2024",
+      dueDate: "3/5/2025",
+    },
+    {
+      userId: 102,
+      name: "Alice",
+      loanAmount: 700,
+      amountPayable: 750,
+      loanDate: "4/10/2024",
+      dueDate: "4/10/2025",
+    },
+    {
+      userId: 103,
+      name: "Bob",
+      loanAmount: 600,
+      amountPayable: 650,
+      loanDate: "2/15/2024",
+      dueDate: "2/15/2025",
+    },
+  ];
 
   return (
-    <Grid container spacing={2}>
-      {[...Array(12)].map((_, index) => (
-        <BoxComponent key={index} loan={loan} />
-      ))}
-    </Grid>
+    <UserCardStyled>
+      <InnerLayout>
+        <h1>All Moneys</h1>
+        <div className="stats-con">
+          <div className="chart-con">
+            <div className="amount-con">
+              {/* Map over user data array */}
+              {users.map((user, index) => (
+                <div className="usercard" key={index}>
+                  <div className="cardTop">
+                    <p className="avator">JS</p>
+                    <div className="">
+                      <p>
+                        UserId: <span>{user.userId}</span>
+                      </p>
+                      <p>
+                        Name: <span>{user.name}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="cardBody">
+                    <div className="">
+                      <p>
+                        Loan Amount: <span>{user.loanAmount}</span>
+                      </p>
+                      <p>
+                        Amount Payable: <span>{user.amountPayable}</span>
+                      </p>
+                    </div>
+                    <div className="">
+                      <p>
+                        Loan Date: <span>{user.loanDate}</span>
+                      </p>
+                      <p>
+                        Due Date: <span>{user.dueDate}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <h3>Total Amount: {user.amountPayable}</h3>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </InnerLayout>
+    </UserCardStyled>
   );
 };
+
+export const UserCardStyled = styled.div`
+  .stats-con {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    .chart-con {
+      grid-column: 1 / 4;
+      height: 400px;
+      .amount-con {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+        .usercard {
+          background: #fcf6f9;
+          border: 2px solid #ffffff;
+          box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
+          border-radius: 20px;
+          display: flex;
+          flex-direction: column;
+          p {
+            color: black;
+            font-weight: bold;
+          }
+          span {
+            font-weight: 400;
+          }
+          h3 {
+            padding: 1rem;
+            color: green;
+          }
+          .cardTop {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #dcd7d7;
+          }
+          .avator {
+            border-radius: 50%;
+            height: 70px;
+            width: 70px;
+            background-color: #dcd7d7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .cardBody {
+            padding: 1rem;
+            font-size: 17px;
+            display: flex;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
+  }
+`;
 
 export default Allmoney;
